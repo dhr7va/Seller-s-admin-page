@@ -8,6 +8,8 @@ function handleFormSubmit(event) {
     const price = event.target.price.value;
     const prodName = event.target.name.value;
 
+    console.log("Form submitted with values:", { price, prodName });
+
     if (!price || !prodName) {
         alert('Both fields are required');
         return;
@@ -20,8 +22,8 @@ function handleFormSubmit(event) {
 
     axios
         .post("https://crudcrud.com/api/eaaff60087234a23b055698bac69424f/sellerInfo", productDetails)
-        .then((response) => displayProd(response.data)) // Display the product after successful post
-        .catch((error) => console.log(error)); // Log any errors
+        .then((response) => displayProd(response.data))
+        .catch((error) => console.log(error));
 
     document.getElementById("price").value = "";
     document.getElementById("name").value = "";

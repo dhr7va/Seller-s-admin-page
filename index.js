@@ -8,8 +8,8 @@ function handleFormSubmit(event) {
 
     axios
         .post("https://crudcrud.com/api/eaaff60087234a23b055698bac69424f/sellerInfo", productDetails)
-        .then((response) => displayProd(response.data))
-        .catch((error) => console.log(error));
+        .then((response) => displayProd(response.data)) // Display the product after successful post
+        .catch((error) => console.log(error)); // Log any errors
 
     document.getElementById("price").value = "";
     document.getElementById("name").value = "";
@@ -20,19 +20,20 @@ function displayProd(productDetails) {
     sellerDetails.textContent = `${productDetails.price} - ${productDetails.prodName}`;
 
     const deletBtn = document.createElement("button");
-    deletBtn.appendChild(document.createTextNode("Delete"));
+    deletBtn.classList.add("btn", "btn-danger");
+    deletBtn.textContent = "Delete";
     sellerDetails.appendChild(deletBtn);
 
     const prodList = document.querySelector("ul");
     prodList.appendChild(sellerDetails);
 
-    deletBtn.addEventListener("click", function (event) {
+    deletBtn.addEventListener("click", function () {
         axios.delete(`https://crudcrud.com/api/eaaff60087234a23b055698bac69424f/sellerInfo/${productDetails._id}`)
             .then(() => {
-                prodList.removeChild(event.target.parentElement);
+                prodList.removeChild(sellerDetails);
             })
             .catch((error) => console.log(error));
-    })
+    });
 }
 
 function loadProducts() {

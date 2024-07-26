@@ -2,13 +2,12 @@ function handleFormSubmit(event) {
     event.preventDefault();
 
     const productDetails = {
-        price: event.target.sellingPrice.value,
-        prodName: event.target.productName.value,
+        price: event.target.price.value,
+        prodName: event.target.name.value
     };
+
     axios
-        .post("https://crudcrud.com/api/eaaff60087234a23b055698bac69424f/sellerInfo",
-            productDetails
-        )
+        .post("https://crudcrud.com/api/eaaff60087234a23b055698bac69424f/sellerInfo", productDetails)
         .then((response) => displayProd(response.data))
         .catch((error) => console.log(error));
 
@@ -16,3 +15,25 @@ function handleFormSubmit(event) {
     document.getElementById("name").value = "";
 }
 
+function displayProd(productDetails) {
+    const sellerDetails = document.createElement("li");
+    sellerDetails.textContent = `${productDetails.price} - ${productDetails.prodName}`;
+
+    const userList = document.querySelector("ul");
+    userList.appendChild(sellerDetails);
+}
+
+function loadProducts() {
+    axios
+        .get("https://crudcrud.com/api/eaaff60087234a23b055698bac69424f/sellerInfo")
+        .then((response) => {
+            response.data.forEach((product) => {
+                displayProd(product);
+            });
+        })
+        .catch((error) => console.log(error));
+}
+
+document.querySelector('form').addEventListener('submit', handleFormSubmit);
+
+document.addEventListener('DOMContentLoaded', loadProducts);

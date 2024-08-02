@@ -21,7 +21,7 @@ function handleFormSubmit(event) {
     };
 
     axios
-        .post("https://crudcrud.com/api/c92f54ecc04a41fe806404cf9995da02/sellerInfo", productDetails)
+        .post("https://crudcrud.com/api/f31ecffc618749abaf2a92749759ebe6/sellerInfo", productDetails)
         .then((response) => displayProd(response.data))
         .catch((error) => {
             console.log(error);
@@ -50,27 +50,32 @@ function displayProd(productDetails) {
     prodList.appendChild(sellerDetails);
 
     deleteBtn.addEventListener("click", function () {
-        axios.delete(`https://crudcrud.com/api/c92f54ecc04a41fe806404cf9995da02/sellerInfo/${productDetails._id}`)
-            .then(() => {
-                alert('Are you sure you want to delete the product?')
-                prodList.removeChild(sellerDetails);
-            })
-            .catch((error) => {
-                console.log(error);
-                alert('Failed to delete product. Please try again.');
-            });
+        if (confirm('Are you sure you want to delete the product?')) {
+            deleteProduct(productDetails._id, sellerDetails, prodList);
+        }
     });
 
-    editBtn.addEventListener("click", function (event) {
-        prodList.removeChild(event.target.parentElement);
+    editBtn.addEventListener("click", function () {
         document.getElementById("price").value = productDetails.price;
         document.getElementById("name").value = productDetails.prodName;
+        deleteProduct(productDetails._id, sellerDetails, prodList);
     });
+}
+
+function deleteProduct(id, sellerDetails, prodList) {
+    axios.delete(`https://crudcrud.com/api/f31ecffc618749abaf2a92749759ebe6/sellerInfo/${id}`)
+        .then(() => {
+            prodList.removeChild(sellerDetails);
+        })
+        .catch((error) => {
+            console.log(error);
+            alert('Failed to delete product. Please try again.');
+        });
 }
 
 function loadProducts() {
     axios
-        .get("https://crudcrud.com/api/c92f54ecc04a41fe806404cf9995da02/sellerInfo")
+        .get("https://crudcrud.com/api/f31ecffc618749abaf2a92749759ebe6/sellerInfo")
         .then((response) => {
             response.data.forEach((product) => {
                 displayProd(product);

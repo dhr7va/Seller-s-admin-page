@@ -21,7 +21,7 @@ function handleFormSubmit(event) {
     };
 
     axios
-        .post("https://crudcrud.com/api/f31ecffc618749abaf2a92749759ebe6/sellerInfo", productDetails)
+        .post("https://crudcrud.com/api/6636ae75a61b4fa585fb85c680f3a255/sellerInfo", productDetails)
         .then((response) => displayProd(response.data))
         .catch((error) => {
             console.log(error);
@@ -63,7 +63,7 @@ function displayProd(productDetails) {
 }
 
 function deleteProduct(id, sellerDetails, prodList) {
-    axios.delete(`https://crudcrud.com/api/f31ecffc618749abaf2a92749759ebe6/sellerInfo/${id}`)
+    axios.delete(`https://crudcrud.com/api/6636ae75a61b4fa585fb85c680f3a255/sellerInfo/${id}`)
         .then(() => {
             prodList.removeChild(sellerDetails);
         })
@@ -75,7 +75,7 @@ function deleteProduct(id, sellerDetails, prodList) {
 
 function loadProducts() {
     axios
-        .get("https://crudcrud.com/api/f31ecffc618749abaf2a92749759ebe6/sellerInfo")
+        .get("https://crudcrud.com/api/6636ae75a61b4fa585fb85c680f3a255/sellerInfo")
         .then((response) => {
             response.data.forEach((product) => {
                 displayProd(product);
